@@ -1,10 +1,12 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link';
+import gsap from 'gsap';
 
 export default function GetStarted() {
   const [moduleStatus, setModuleStatus] = useState<boolean>(false);
+  const mainContainerRef = useRef(null);
 
   const updateModuleStatus = () => {
     setModuleStatus(true);
@@ -14,8 +16,17 @@ export default function GetStarted() {
     setModuleStatus(false);
   };
 
+  useEffect(()=>{
+    gsap.from(mainContainerRef.current,{
+      opacity: 0,
+      duration: 2,
+      y:-20,
+      ease: "power2.out",
+    })
+  },[])
+
   return (
-    <div className="w-screen h-screen relative">
+    <div className="w-screen h-screen relative" ref={mainContainerRef}>
       <div className={`p-5 transition-all duration-300 ${moduleStatus ? "opacity-25 pointer-events-none" : ""}`}>
         <Navbar />
         <section className="text-4xl p-3 flex flex-col justify-center items-center max-w-full relative top-10">
